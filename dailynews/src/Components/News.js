@@ -76,6 +76,28 @@ export class News extends Component {
       loading: false,
     };
   }
+
+  // componentDidMount is a lifecycle method that is called 
+  // after the constructor-->render-->componentDidmount is mounted
+
+  // async func wait to resolve some promise in their body 
+  async componentDidMount(){  
+    console.log("News Component componentDidMount called");
+    let url = "https://newsapi.org/v2/top-headlines?country=in&apiKey=54c1aec9ac8d4d60bebd523957581ce6";
+    let data = await fetch(url); // fetch take url and return a promise 
+    // resolve or return 
+    // we use async await to handle the promise
+    // fetch is a promise based function
+    console.log(data);
+    let parsedData = await data.json(); // convert the data to json format
+    console.log(parsedData);    
+    this.setState({
+      articles: parsedData.articles, // set the articles state to the articles from the parsed data
+      //totalResults: parsedData.totalResults, // set the total results state to the total results from the parsed data
+      //loading: false, // set loading to false
+    });
+  }
+
   render() {
     return (
       <div className="container my-3">
@@ -89,9 +111,9 @@ export class News extends Component {
             return (
               <div className="col-md-4" key={element.url}>
                 <NewsItem
-                  title={element.title.slice(0, 45) + "..."}
+                  title={element.title?element.title.slice(0, 45):" "}
                   // slice used to limit the title length
-                  description={element.description.slice(0, 88) + "..."}
+                  description={element.description?element.description.slice(0, 88): " "}
                   // slice used to limit the description length
                   imageUrl={element.urlToImage}
                   author={element.author || "Unknown"}
