@@ -20,6 +20,8 @@ export class News extends Component {
     };
   }
 
+  
+
   // componentDidMount is a lifecycle method that is called
   // after the constructor-->render-->componentDidmount is mounted
 
@@ -39,10 +41,38 @@ export class News extends Component {
     // articles is an array of objects with properties like source, author, title, description, url, urlToImage, publishedAt, content
     this.setState({
       articles: parsedData.articles, // set the articles state to the articles from the parsed data
-      //totalResults: parsedData.totalResults, // set the total results state to the total results from the parsed data
-      //loading: false, // set loading to false
+      totalResults: parsedData.totalResults, // set the total results state to the total results from the parsed data
+      loading: false, // set loading to false
     });
   }
+
+  handlePrevClick = async () => {
+    console.log("Previous");
+    let url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=54c1aec9ac8d4d60bebd523957581ce6&page=${
+      this.state.page - 1
+    }&pageSize=20`; // url to fetch the news articles
+    let data = await fetch(url); // fetch the data from the url
+    let parsedData = await data.json(); // convert the data to json format
+    console.log("Data", parsedData); // see the data in console
+    this.setState({
+      page: this.state.page - 1, // set the page state to the previous page
+      articles: parsedData.articles, // set the articles state to the articles from the parsed data
+    });
+  };
+
+  handleNextClick = async () => { 
+    console.log("Next");
+    let url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=54c1aec9ac8d4d60bebd523957581ce6&page=${
+      this.state.page + 1
+    }&pageSize=20`; // url to fetch the news articles   
+    let data = await fetch(url); // fetch the data from the url
+    let parsedData = await data.json(); // convert the data to json format
+    console.log("Data", parsedData); // see the data in console
+    this.setState({
+      page: this.state.page + 1, // set the page state to the next page
+      articles: parsedData.articles, // set the articles state to the articles from the parsed data
+    });
+  };
 
   render() {
     return (
@@ -70,11 +100,14 @@ export class News extends Component {
           )}
         </div>
         <div className="container d-flex justify-content-between ">
-          <button type="button" class="btn btn-dark">
-            &larr; Previous
+          <button type="button" className="btn btn-dark"  disabled={this.state.page <= 1} onClick={this.handlePrevClick}  >
+            &larr; Previous 
+            {/* onClick={() => this.setState({ page: this.state.page - 1 })} */}
           </button>
-          <button type="button" class="btn btn-dark">
+          <button type="button" className="btn btn-dark" disabled={this.state.page >= Math.ceil(this.state.totalResults / 20)} onClick={this.handleNextClick} > 
             Next 	&rarr;
+            {/* onClick={() => this.setState({ page: this.state.page + 1 })}
+                  */}
           </button>
         </div>
       </div>
