@@ -1,17 +1,37 @@
 import React, { Component } from "react";
 
 export class NewsItem extends Component {
-
   render() {
-    let { title, description, imageUrl, newsUrl, author, date, source } =  this.props;
+    let { title, description, imageUrl, newsUrl, author, date, source } =
+      this.props;
     return (
       <div className="my-3">
         <div className="card">
-          <img src={!imageUrl?"https://static.politico.com/d2/b0/1d8b6e924c45bfc2355ccb55b7dd/trump-military-07765.jpg":imageUrl} className="card-img-top" alt="..." />
+          <span
+            className="position-absolute top-0 translate-middle badge rounded-pill bg-danger"
+            style={{ left: "90%", zIndex: "1" }}
+          >
+            {source ? source : "Unknown Source"}
+          </span>
+          <img
+            src={
+              !imageUrl
+                ? " https://www.investors.com/wp-content/uploads/2018/03/stock-FederalReserve-05-adobe.jpg "
+                : imageUrl
+            }
+            className="card-img-top"
+            alt="..."
+          />
           <div className="card-body">
             <h5 className="card-title">{title}</h5>
             <p className="card-text">{description}</p>
-            <a href={newsUrl} rel="noreferrer" target="_blank" className="btn btn-sm btn-dark">
+            <p className="card-text"><small className="text-danger">By {!author ? "Unknown" : author} on  {new Date(date).toGMTString()}</small></p>
+            <a
+              href={newsUrl}
+              rel="noreferrer"
+              target="_blank"
+              className="btn btn-sm btn-dark"
+            >
               Read More
             </a>
           </div>
