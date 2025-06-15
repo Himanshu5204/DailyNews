@@ -27,6 +27,8 @@ export class News extends Component {
     // You can initialize state here if needed
     // this.state = {};
     console.log("News Component constructor called");
+    console.log("API Key:", this.props.apiKey);
+
     // state used when you want to change repeatly the data in the component title desc no change/reapeat
     // want on screen without reloading the page
 
@@ -35,11 +37,11 @@ export class News extends Component {
     this.state = {
       articles: [], // articles is an null array of objects
       loading: true,
-            page: 1, // page is 1 by default 
-            totalResults: 0 // pageSize is the number of articles to be displayed on each page
-                      // pageSize is passed as a prop from the parent component
-                      // totalResults is the total number of articles available in the API
-                    // totalResults is used to calculate the number of pages
+      page: 1, // page is 1 by default
+      totalResults: 0, // pageSize is the number of articles to be displayed on each page
+      // pageSize is passed as a prop from the parent component
+      // totalResults is the total number of articles available in the API
+      // totalResults is used to calculate the number of pages
     };
     document.title = `${this.capitalizeFirstLetter(
       this.props.category
@@ -48,7 +50,7 @@ export class News extends Component {
 
   async updateNews() {
     this.props.setProgress(10);
-    const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=54c1aec9ac8d4d60bebd523957581ce6&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+    const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
     this.setState({ loading: true });
     let data = await fetch(url);
     this.props.setProgress(30);
@@ -143,44 +145,59 @@ export class News extends Component {
   //   });
   // };
 
-   fetchMoreData = async () => {  
-        this.setState({page: this.state.page + 1})
-        const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=54c1aec9ac8d4d60bebd523957581ce6&page=${this.state.page}&pageSize=${this.props.pageSize}`;
-        let data = await fetch(url);
-        let parsedData = await data.json()
-        this.setState({
-            articles: this.state.articles.concat(parsedData.articles),
-            totalResults: parsedData.totalResults
-        })
-      };
+  fetchMoreData = async () => {
+    const nextPage = this.state.page + 1;
+    const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${nextPage}&pageSize=${this.props.pageSize}`;
+    console.log("Next page is:", nextPage);
+    let data = await fetch(url);
+    let parsedData = await data.json();
+
+    this.setState({
+      articles: this.state.articles.concat(parsedData.articles),
+      totalResults: parsedData.totalResults,
+      page: nextPage,
+    });
+  };
 
   render() {
     return (
-       <>
+      <>
         <h1 className="text-center" style={{ margin: "35px 0px" }}>
-          DailyNews - Top {this.capitalizeFirstLetter(this.props.category)}  Headlines
+          DailyNews - Top {this.capitalizeFirstLetter(this.props.category)}{" "}
+          Headlines
         </h1>
         {/* {this.state.articles.map((element)=>{console.log(element)})} 
         articles is an array of objects load in console
         */}
         {this.state.loading && <Spinner />}
-          <InfiniteScroll
-                    dataLength={this.state.articles.length}
-                    next={this.fetchMoreData}
-                    hasMore={this.state.articles.length !== this.state.totalResults}
-                    loader={<Spinner/>}
-                > 
-                    <div className="container">
-                         
-                    <div className="row">
-                        {this.state.articles.map((element) => {
-                            return <div className="col-md-4" key={element.url}>
-                                <NewsItem title={element.title ? element.title : ""} description={element.description ? element.description : ""} imageUrl={element.urlToImage} newsUrl={element.url} author={element.author} date={element.publishedAt} source={element.source.name} />
-                            </div>
-                        })}
-                    </div>
-                    </div> 
-                </InfiniteScroll>
+        <InfiniteScroll
+          dataLength={this.state.articles.length}
+          next={this.fetchMoreData}
+          hasMore={this.state.articles.length !== this.state.totalResults}
+          loader={<Spinner />}
+        >
+          <div className="container">
+            <div className="row">
+              {this.state.articles.map((element) => {
+                return (
+                  <div className="col-md-4" key={element.url}>
+                    <NewsItem
+                      title={element.title ? element.title : ""}
+                      description={
+                        element.description ? element.description : ""
+                      }
+                      imageUrl={element.urlToImage}
+                      newsUrl={element.url}
+                      author={element.author}
+                      date={element.publishedAt}
+                      source={element.source.name}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </InfiniteScroll>
       </>
     );
   }
