@@ -10,11 +10,13 @@ export class Navbar extends Component {
     let { title } = this.props;
     return (
       <div>
-        <nav className="navbar navbar-expand-lg bg-dark navbar-dark">
+        <nav className="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
+          
           <div className="container-fluid">
             {/* <a className="navbar-brand" href="/">
               {title}
             </a> */}
+            
             <Link className="navbar-brand" to="/">{title}</Link>
             <button
               className="navbar-toggler"

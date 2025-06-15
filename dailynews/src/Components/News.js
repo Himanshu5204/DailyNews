@@ -162,7 +162,7 @@ export class News extends Component {
   render() {
     return (
       <>
-        <h1 className="text-center" style={{ margin: "35px 0px" }}>
+        <h1 className="text-center" style={{ margin: "35px 0px " , marginTop: "90px"}}>
           DailyNews - Top {this.capitalizeFirstLetter(this.props.category)}{" "}
           Headlines
         </h1>
