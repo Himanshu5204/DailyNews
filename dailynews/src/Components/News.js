@@ -23,7 +23,7 @@ export class News extends Component {
   };
 
   constructor(props) {
-    super(props); // Call the parent constructor must be called
+    super(props); //  Call the parent constructor must be called
     // You can initialize state here if needed
     // this.state = {};
     console.log("News Component constructor called");
