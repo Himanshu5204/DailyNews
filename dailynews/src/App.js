@@ -1,24 +1,24 @@
 // entry point for the React application
 //  rfc for react function based components to rcc react class component
 
-import "./App.css";
-import React, { Component } from "react";
-import Navbar from "./Components/Navbar";
-import News from "./Components/News";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import LoadingBar from "react-top-loading-bar";
+import './App.css';
+import React, { Component } from 'react';
+import Navbar from './Components/Navbar';
+import News from './Components/News';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import LoadingBar from 'react-top-loading-bar';
 
 // This is a class component in React.
 // It extends the Component class from React and defines a render method.
 // The render method returns JSX, which is a syntax extension that allows you to write HTML-like code in JavaScript.
 
 export default class App extends Component {
-  c = "This is a class component";
+  c = 'This is a class component';
   pageSize = 5;
   // apiKey = "54c1aec9ac8d4d60bebd523957581ce6"
   apiKey = process.env.REACT_APP_NEWS_API;
   state = {
-    progress: 0,
+    progress: 0
   };
 
   setProgress = (progress) => {
@@ -34,90 +34,86 @@ export default class App extends Component {
         */}
         <Router>
           <Navbar />
-          <LoadingBar
-            height={3}
-            color="#f11946"
-            progress={this.state.progress}
-          />
+          <LoadingBar height={3} color='#f11946' progress={this.state.progress} />
           <Switch>
-            <Route exact path="/">
+            <Route exact path='/'>
               <News
                 setProgress={this.setProgress}
                 apiKey={this.apiKey}
-                key="general"
+                key='general'
                 pageSize={this.pageSize}
-                country="us"
-                category="general"
+                country='us'
+                category='general'
               />
             </Route>
-            <Route exact path="/business">
+            <Route exact path='/business'>
               <News
                 setProgress={this.setProgress}
                 apiKey={this.apiKey}
-                key="business"
+                key='business'
                 pageSize={this.pageSize}
-                country="us"
-                category="business"
+                country='us'
+                category='business'
               />
             </Route>
-            <Route exact path="/entertainment">
+            <Route exact path='/entertainment'>
               <News
                 setProgress={this.setProgress}
                 apiKey={this.apiKey}
-                key="entertainment"
+                key='entertainment'
                 pageSize={this.pageSize}
-                country="us"
-                category="entertainment"
+                country='us'
+                category='entertainment'
               />
             </Route>
-            <Route exact path="/general">
+            <Route exact path='/general'>
               <News
                 setProgress={this.setProgress}
                 apiKey={this.apiKey}
-                key="general"
+                key='general'
                 pageSize={this.pageSize}
-                country="us"
-                category="general"
+                country='us'
+                category='general'
               />
             </Route>
-            <Route exact path="/health">
+            <Route exact path='/health'>
               <News
                 setProgress={this.setProgress}
                 apiKey={this.apiKey}
-                key="health"
+                key='health'
                 pageSize={this.pageSize}
-                country="us"
-                category="health"
+                country='us'
+                category='health'
               />
             </Route>
-            <Route exact path="/science">
+            <Route exact path='/science'>
               <News
                 setProgress={this.setProgress}
                 apiKey={this.apiKey}
-                key="science"
+                key='science'
                 pageSize={this.pageSize}
-                country="us"
-                category="science"
+                country='us'
+                category='science'
               />
             </Route>
-            <Route exact path="/sports">
+            <Route exact path='/sports'>
               <News
                 setProgress={this.setProgress}
                 apiKey={this.apiKey}
-                key="sports"
+                key='sports'
                 pageSize={this.pageSize}
-                country="us"
-                category="sports"
+                country='us'
+                category='sports'
               />
             </Route>
-            <Route exact path="/technology">
+            <Route exact path='/technology'>
               <News
                 setProgress={this.setProgress}
                 apiKey={this.apiKey}
-                key="technology"
+                key='technology'
                 pageSize={this.pageSize}
-                country="us"
-                category="technology"
+                country='us'
+                category='technology'
               />
             </Route>
           </Switch>

@@ -2,12 +2,17 @@
 // react classbased component export statement p for proptypes
 
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link , withRouter } from "react-router-dom";
 //import PropTypes from "prop-types";
 
 export class Navbar extends Component {
   render() {
-    let { title } = this.props;
+    let { title , location} = this.props;
+
+    const getActiveClass = (path) => {
+      return location.pathname === path ? "nav-link active" : "nav-link";
+    };
+
     return (
       <div>
         <nav className="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
@@ -35,15 +40,29 @@ export class Navbar extends Component {
             >
               <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                 <li className="nav-item">
-                  <Link className="nav-link" aria-current="page" to="/">Home</Link>
+                  <Link className={getActiveClass("/")} to="/">Home</Link>
                 </li>
-                <li className="nav-item"><Link className="nav-link" to="/business">Business</Link></li>
-                <li className="nav-item"><Link className="nav-link" to="/entertainment">Entertainment</Link></li>
-                <li className="nav-item"><Link className="nav-link" to="/general">General</Link></li>
-                <li className="nav-item"><Link className="nav-link" to="/health">Health</Link></li>
-                <li className="nav-item"><Link className="nav-link" to="/science">Science</Link></li>
-                <li className="nav-item"><Link className="nav-link" to="/sports">Sports</Link></li>
-                <li className="nav-item"><Link className="nav-link" to="/technology">Technology</Link></li>
+                <li className="nav-item">
+                  <Link className={getActiveClass("/business")} to="/business">Business</Link>
+                </li>
+                <li className="nav-item">
+                  <Link className={getActiveClass("/entertainment")} to="/entertainment">Entertainment</Link>
+                </li>
+                <li className="nav-item">
+                  <Link className={getActiveClass("/general")} to="/general">General</Link>
+                </li>
+                <li className="nav-item">
+                  <Link className={getActiveClass("/health")} to="/health">Health</Link>
+                </li>
+                <li className="nav-item">
+                  <Link className={getActiveClass("/science")} to="/science">Science</Link>
+                </li>
+                <li className="nav-item">
+                  <Link className={getActiveClass("/sports")} to="/sports">Sports</Link>
+                </li>
+                <li className="nav-item">
+                  <Link className={getActiveClass("/technology")} to="/technology">Technology</Link>
+                </li>
               </ul>
             </div>
           </div>
@@ -53,4 +72,4 @@ export class Navbar extends Component {
   }
 }
 
-export default Navbar;
+export default withRouter(Navbar);
