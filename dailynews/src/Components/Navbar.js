@@ -7,7 +7,7 @@ import { Link , withRouter } from "react-router-dom";
 
 export class Navbar extends Component {
   render() {
-    let { title , location} = this.props;
+    let { title , location,mode, toggleMode} = this.props;
 
     const getActiveClass = (path) => {
       return location.pathname === path ? "nav-link active" : "nav-link";
@@ -15,8 +15,7 @@ export class Navbar extends Component {
 
     return (
       <div>
-        <nav className="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
-          
+        <nav className={`navbar navbar-expand-lg navbar-${mode} bg-${mode} fixed-top`}>           
           <div className="container-fluid">
             {/* <a className="navbar-brand" href="/">
               {title}
@@ -64,6 +63,19 @@ export class Navbar extends Component {
                   <Link className={getActiveClass("/technology")} to="/technology">Technology</Link>
                 </li>
               </ul>
+              {/* Toggle Button */}
+              <div className={`form-check form-switch text-${mode === 'light' ? 'dark' : 'light'}`}>
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  id="themeSwitch"
+                  onChange={toggleMode}
+                  checked={mode === 'dark'}
+                />
+                <label className="form-check-label" htmlFor="themeSwitch">
+                  Enable {mode === 'light' ? 'Dark' : 'Light'} Mode
+                </label>
+              </div>
             </div>
           </div>
         </nav>

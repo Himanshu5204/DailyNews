@@ -18,11 +18,20 @@ export default class App extends Component {
   // apiKey = "54c1aec9ac8d4d60bebd523957581ce6"
   apiKey = process.env.REACT_APP_NEWS_API;
   state = {
-    progress: 0
+    progress: 0,
+    mode: 'light'
   };
 
   setProgress = (progress) => {
     this.setState({ progress: progress });
+  };
+
+  toggleMode = () => {
+    const newMode = this.state.mode === 'light' ? 'dark' : 'light';
+    this.setState({ mode: newMode });
+
+    document.body.style.backgroundColor = newMode === 'dark' ? '#121212' : 'white';
+    document.body.style.color = newMode === 'dark' ? 'white' : 'black';
   };
   render() {
     //render lifecycle methods
@@ -33,7 +42,7 @@ export default class App extends Component {
         <News pageSize={5} country="us" category="science"/>
         */}
         <Router>
-          <Navbar />
+          <Navbar title='Daily News' mode={this.state.mode} toggleMode={this.toggleMode} />
           <LoadingBar height={3} color='#f11946' progress={this.state.progress} />
           <Switch>
             <Route exact path='/'>
