@@ -19,11 +19,16 @@ export default class App extends Component {
   apiKey = process.env.REACT_APP_NEWS_API;
   state = {
     progress: 0,
-    mode: 'light'
+    mode: 'light',
+    searchQuery: ''
   };
 
   setProgress = (progress) => {
     this.setState({ progress: progress });
+  };
+
+  handleSearch = (query) => {
+    this.setState({ searchQuery: query });
   };
 
   toggleMode = () => {
@@ -42,7 +47,7 @@ export default class App extends Component {
         <News pageSize={5} country="us" category="science"/>
         */}
         <Router>
-          <Navbar title='Daily News' mode={this.state.mode} toggleMode={this.toggleMode} />
+          <Navbar title='Daily News' mode={this.state.mode} toggleMode={this.toggleMode} onSearch={this.handleSearch} />
           <LoadingBar height={3} color='#f11946' progress={this.state.progress} />
           <Switch>
             <Route exact path='/'>
@@ -53,6 +58,7 @@ export default class App extends Component {
                 pageSize={this.pageSize}
                 country='us'
                 category='general'
+                searchQuery={this.state.searchQuery}
               />
             </Route>
             <Route exact path='/business'>
@@ -63,6 +69,7 @@ export default class App extends Component {
                 pageSize={this.pageSize}
                 country='us'
                 category='business'
+                searchQuery={this.state.searchQuery}
               />
             </Route>
             <Route exact path='/entertainment'>
@@ -73,6 +80,7 @@ export default class App extends Component {
                 pageSize={this.pageSize}
                 country='us'
                 category='entertainment'
+                searchQuery={this.state.searchQuery}
               />
             </Route>
             <Route exact path='/general'>
@@ -83,6 +91,7 @@ export default class App extends Component {
                 pageSize={this.pageSize}
                 country='us'
                 category='general'
+                searchQuery={this.state.searchQuery}
               />
             </Route>
             <Route exact path='/health'>
@@ -93,6 +102,7 @@ export default class App extends Component {
                 pageSize={this.pageSize}
                 country='us'
                 category='health'
+                searchQuery={this.state.searchQuery}
               />
             </Route>
             <Route exact path='/science'>
@@ -103,6 +113,7 @@ export default class App extends Component {
                 pageSize={this.pageSize}
                 country='us'
                 category='science'
+                searchQuery={this.state.searchQuery}
               />
             </Route>
             <Route exact path='/sports'>
@@ -113,6 +124,7 @@ export default class App extends Component {
                 pageSize={this.pageSize}
                 country='us'
                 category='sports'
+                searchQuery={this.state.searchQuery}
               />
             </Route>
             <Route exact path='/technology'>
@@ -123,6 +135,7 @@ export default class App extends Component {
                 pageSize={this.pageSize}
                 country='us'
                 category='technology'
+                searchQuery={this.state.searchQuery}
               />
             </Route>
           </Switch>

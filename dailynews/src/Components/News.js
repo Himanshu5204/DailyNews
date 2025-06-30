@@ -160,32 +160,40 @@ export class News extends Component {
   };
 
   render() {
+    // Filter articles if searchQuery is present
+    const { searchQuery = '' } = this.props;
+    const filteredArticles = searchQuery
+      ? this.state.articles.filter(
+          (article) =>
+            (article.title && article.title.toLowerCase().includes(searchQuery.toLowerCase())) ||
+            (article.description && article.description.toLowerCase().includes(searchQuery.toLowerCase()))
+        )
+      : this.state.articles;
     return (
       <>
-        <h1 className="text-center" style={{ margin: "35px 0px " , marginTop: "90px"}}>
-          DailyNews - Top {this.capitalizeFirstLetter(this.props.category)}{" "}
-          Headlines
+        <h1 className="text-center" style={{ margin: "35px 0px ", marginTop: "90px" }}>
+          DailyNews - Top {this.capitalizeFirstLetter(this.props.category)} Headlines
         </h1>
-        {/* {this.state.articles.map((element)=>{console.log(element)})} 
-        articles is an array of objects load in console
-        */}
         {this.state.loading && <Spinner />}
+        {!this.state.loading && filteredArticles.length === 0 && (
+          <div className="text-center my-4">
+            <h4>No articles found.</h4>
+          </div>
+        )}
         <InfiniteScroll
-          dataLength={this.state.articles.length}
+          dataLength={filteredArticles.length}
           next={this.fetchMoreData}
-          hasMore={this.state.articles.length !== this.state.totalResults}
+          hasMore={filteredArticles.length !== this.state.totalResults}
           loader={<Spinner />}
         >
           <div className="container">
             <div className="row">
-              {this.state.articles.map((element) => {
+              {filteredArticles.map((element) => {
                 return (
                   <div className="col-md-4" key={element.url}>
                     <NewsItem
                       title={element.title ? element.title : ""}
-                      description={
-                        element.description ? element.description : ""
-                      }
+                      description={element.description ? element.description : ""}
                       imageUrl={element.urlToImage}
                       newsUrl={element.url}
                       author={element.author}

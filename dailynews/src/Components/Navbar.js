@@ -63,6 +63,16 @@ export class Navbar extends Component {
                   <Link className={getActiveClass("/technology")} to="/technology">Technology</Link>
                 </li>
               </ul>
+              {/* Search Input */}
+              <form className="d-flex mx-2" role="search" onSubmit={e => e.preventDefault()}>
+                <input
+                  className="form-control me-2"
+                  type="search"
+                  placeholder="Search News"
+                  aria-label="Search"
+                  onChange={e => this.props.onSearch && this.props.onSearch(e.target.value)}
+                />
+              </form>
               {/* Toggle Button */}
               <div className={`form-check form-switch text-${mode === 'light' ? 'dark' : 'light'}`}>
                 <input
